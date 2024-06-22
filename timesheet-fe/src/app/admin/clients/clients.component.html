@@ -1,0 +1,49 @@
+<div class="client-container">
+    <!-- Phần header -->
+    <div class="header">
+        <h2>Client</h2>
+    </div>
+
+    <!-- Phần thân -->
+    <div class="body">
+
+      <!-- app.component.html -->
+
+  <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
+
+  <table mat-table [dataSource]="displayedData" #mytable class="my-table mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name. </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef> Code </th>
+      <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+    </ng-container> 
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let element" class="action-link"> 
+        <a class="btn btnEdit" (click)="openDialog('Update',element)">Edit</a> | 
+        <a class="btn btnDelete" (click)="openDialog('Delete',element)">Delete</a>  
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <div class="pagination">
+    <!-- Nút chuyển trang -->
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+    <span>{{ currentPage }}/{{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+</div>
+</div>
+  
+       

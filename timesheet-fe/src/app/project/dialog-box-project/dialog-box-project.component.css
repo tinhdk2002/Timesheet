@@ -1,0 +1,159 @@
+.close-icon {
+    float:right !important;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.form-group{
+    display: flex;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+
+.close-icon{
+  cursor: pointer;
+}
+/* Thêm style cho label */
+.form-group label {
+    font-size: 1em; /* Font size lớn hơn */
+    font-weight: bold; /* Chữ đậm */
+    width: 130px;
+  }
+  
+  .form-group select{
+    width: 72%;
+    height: 40px;
+  }
+  /* Thêm style cho input */
+  .form-group input {
+    width: 70%; /* Rộng 100% */
+    padding: 8px; /* Thêm padding */
+    font-size: 1em; /* Font size */
+  }
+  
+  /* Thêm style cho phần báo lỗi */
+  .error-message {
+    color: red; /* Màu đỏ */
+  }
+  
+  /* Thêm style cho input không hợp lệ */
+  .invalid-input {
+    border-color: red; /* Border màu đỏ */
+  }
+  
+  /* Thêm style cho nút Add Member */
+  .add-member-button {
+    margin-bottom: 10px; /* Khoảng cách dưới */
+  }
+  
+  .to {
+    margin: 0 10px 0 10px;
+    line-height: 40px;
+  }
+  .date {
+    width: 25% !important;
+  }
+
+  .mat-dialog-actions {
+    padding: 8px 0;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 52px;
+    align-items: center;
+    margin-bottom: -24px;
+    justify-content: flex-end;
+  }
+
+
+  .form-container {
+    width: 100%;
+    height: 100%;
+  }
+
+
+  .dialog-actions {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ccc;
+    text-align: right;
+  }
+
+  form {
+    overflow: auto;
+  }
+  .member-selection,
+.selected-members {
+    float: left;
+  width: 200px;
+  margin-right: 20px;
+}
+
+.member-selection {
+  float: right;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+.dialog-content {
+  overflow: hidden; /* Clear floats */
+}
+
+.dialog-actions {
+  clear: both; /* Đảm bảo action nằm ở dưới cùng */
+}
+
+.member-list {
+    width: 60%;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+  }
+
+  .add-member-list{
+    width: 40%;
+    overflow-y: auto;
+    max-height: 300px;  
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  }
+  .rightOverlay {
+    float:right;
+  }
+
+  .content{
+    display: flex;
+    overflow: hidden;
+    margin-top: 40px;
+    margin-left: 50px;
+  }
+  .userList{
+    border-bottom: 1px solid black;
+  }
+
+  .leftTeam{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+
+  .btnRight {
+    box-shadow: inset;
+  }
+
+  .my-table {
+    width: 100%;
+  }
+
+  .contentTask{
+    max-height: 400px;
+  }

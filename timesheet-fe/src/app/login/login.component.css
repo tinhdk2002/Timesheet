@@ -1,0 +1,70 @@
+.contain {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background-color: aqua;
+}
+
+.contain h1 {
+    margin-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    color:white
+}
+.row {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    overflow: hidden;
+    background-color:#eff0f2;
+    border-radius:15px;
+    flex-direction: column;
+    padding: 50px;
+  }
+  .header {
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 20px;
+    color: black;
+  }
+  .form-group {
+    margin-bottom: 20px; /* Khoảng cách giữa các nhóm form */
+  }
+  
+  label {
+    display: block; /* Hiển thị label theo dòng */
+    margin-bottom: 5px; /* Khoảng cách giữa label và input */
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%; /* Độ rộng tối đa của input */
+    padding: 10px; /* Khoảng cách padding của input */
+    font-size: 16px; /* Kích thước chữ của input */
+    border: 1px solid #ccc; /* Viền input */
+    border-radius: 5px; /* Bo góc của input */
+  }
+  
+  button {
+    padding: 10px 20px; /* Khoảng cách padding của button */
+    font-size: 16px; /* Kích thước chữ của button */
+    border-radius: 5px; /* Bo góc của button */
+    
+  }
+  button:hover {
+        cursor: pointer;
+        opacity: 0.5;
+  }
+  
+  .alert {
+    margin-bottom: 10px; /* Khoảng cách giữa các alert */
+  }
+
+  .alert-danger {
+    color: red;
+  }
+
+  

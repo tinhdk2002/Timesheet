@@ -1,0 +1,89 @@
+
+<div class="container">
+    <div class="timesheet-header">
+        <div class="left-header">
+          {{ currentTime }}
+        </div>
+        <div class="right-header">
+          <button mat-button class="btn bg-green" (click)="showToday()">Today</button>
+          <mat-button-toggle-group [vertical]="false">
+            <button mat-button (click)="prevDate()"><mat-icon _ngcontent-c1="" class="mat-icon material-icons mat-icon-no-color" role="img" aria-hidden="true">keyboard_arrow_left</mat-icon></button>
+            <mat-form-field appearance="fill">
+              <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate" matDatepickerInput >
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            </mat-form-field>
+            <button mat-button (click)="nextDate()"><mat-icon _ngcontent-c1="" class="mat-icon material-icons mat-icon-no-color" role="img" aria-hidden="true">keyboard_arrow_right</mat-icon></button>
+          </mat-button-toggle-group>
+        </div>
+        <mat-datepicker #picker (closed)="showDatePicker()"></mat-datepicker>
+    </div>
+      
+    <div class="timesheet-body">
+        <div mat-tab-content>
+            <mat-tab-group [selectedIndex]="selectedTab" (selectedIndexChange)="tabChanged($event)">
+                <mat-tab *ngFor="let day of daysOfWeek; let i = index" [label]="day">
+                  <div *ngFor="let data of dataSource">
+                      <table class="table" *ngIf="dateFomatMMDYYYY(data.date) === currentTime">
+                        <tbody >
+                        <tr >
+                            <td style="width: 70%;">
+                              <div>{{data.projects.name + ' ' + data.projects.code + ' - ' + data.tasks.name}}</div>
+                              <div>{{data.note}}</div>
+                            </td>
+                            <td style="width: 25px;">
+                              <div>{{data.time * 60 * 1000 | date:'mm:ss':'UTC'}} </div>
+                            </td>
+                            <td>
+                              <div>
+                                <span class="bg-light-green label" *ngIf="data.status == 'new'">
+                                  {{upperCaseFirstLetter(data.status)}}
+                                </span> 
+                                <span class="bg-teal label" *ngIf="data.status == 'pending'">
+                                  {{upperCaseFirstLetter(data.status)}}
+                                </span> 
+                                <span class="bg-light-green label" *ngIf="data.status == 'approve'">
+                                  {{upperCaseFirstLetter(data.status)}}
+                                </span>
+                                <span class="bg-grey label" *ngIf="data.status == 'reject'">
+                                  {{upperCaseFirstLetter(data.status)}}
+                                </span>
+                            </div>
+                            </td>
+  
+                            <td _ngcontent-c1="" style="width: 1px"><!----><!----></td>
+                            <td style="width: 115px;">
+                              <ng-container  *ngIf="data.status === 'new'">
+                                <button class="mat-icon-button"  style="width:50px;float: right" color="primary" mat-icon-button (click)="openDialog('Delete',data)">
+                                  <span class="mat-button-wrapper">
+                                    <mat-icon _ngcontent-c1="" class="mat-icon material-icons mat-icon-no-color" role="img" aria-hidden="true" >delete</mat-icon>
+                                  </span>
+                                </button>
+                                  <button class="mat-icon-button" style="float: right" color="primary" mat-icon-button (click)="openDialog('Update',data)">
+                                    <span>
+                                      <mat-icon _ngcontent-c1="" class="mat-icon material-icons mat-icon-no-color" role="img" aria-hidden="true" >edit</mat-icon>
+                                    </span>
+                                  </button>
+                              </ng-container>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    
+                  </div>
+                </mat-tab>
+
+                <!-- <mat-tab label="Monday"></mat-tab>
+                <mat-tab label="Tuesday"></mat-tab>
+                <mat-tab label="Wednesday"></mat-tab>
+                <mat-tab label="Thursday"></mat-tab>
+                <mat-tab label="Friday"></mat-tab>
+                <mat-tab label="Saturday"></mat-tab>
+                <mat-tab label="Sunday"></mat-tab> -->
+            </mat-tab-group>
+        </div>
+    </div>
+    <div class="timesheet-end">
+        <button mat-flat-button (click)="openDialog('Add',{date:currentTime})"><span class="mat-button-wrapper" ><mat-icon _ngcontent-c1="" class="mat-icon material-icons mat-button-wrapper" role="img" aria-hidden="true">add</mat-icon></span></button>
+        <button mat-flat-button><span class="mat-button-wrapper" (click)="submitTimesheet()"> Submit Week for Approval </span></button>
+    </div>
+</div>
