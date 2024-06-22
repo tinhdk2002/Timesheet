@@ -1,0 +1,33 @@
+<!-- dialog-box.component.html -->
+<h1 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h1>
+<div mat-dialog-content>
+  <div *ngIf="action != 'Delete'; else elseTemplate">
+    <form [formGroup]="formClient" (ngSubmit)="doAction()">
+    <mat-form-field>
+        <input placeholder="Name" formControlName="name" matInput type="text" id="name" name="name" [(ngModel)]="local_data.name">
+    </mat-form-field>
+    <mat-form-field>
+        <input placeholder="Code" formControlName="code" matInput type="text" id="code" name="code" [(ngModel)]="local_data.code">
+    </mat-form-field>
+    <mat-form-field>
+        <input placeholder="Address" formControlName="address" matInput type="string" name="address" id="address" [(ngModel)]="local_data.address">        
+    </mat-form-field>
+  </form>
+
+  </div>
+ 
+    
+  <ng-template #elseTemplate>
+    Sure to delete <b>{{local_data.name}}</b>?
+  </ng-template>
+</div>
+<div mat-dialog-actions *ngIf="action != 'Delete'; else elseAction">
+  <button mat-button #elseButton [disabled]="!formClient.valid" (click)="doAction()">{{action}}</button>
+  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div>
+<ng-template #elseAction>
+  <div mat-dialog-actions>
+    <button mat-button  (click)="doAction()">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+  </div>
+</ng-template>

@@ -1,0 +1,58 @@
+<!-- dialog-box.component.html -->
+<h1 mat-dialog-title class="title"><strong>{{action}} Timesheet</strong><span style="font-size: 16px;">{{local_data.date}}</span>
+    </h1>
+<div mat-dialog-content>
+  <div *ngIf="action != 'Delete'; else elseTemplate" class="container">
+    <form [formGroup]="formTimesheet">
+      <mat-form-field class="mat-form-field">
+          <mat-label>Project</mat-label>
+            <mat-select  name="project" formControlName="project" [(ngModel)]="local_data.projects" (selectionChange)="projectChange($event)" required>
+              <mat-option *ngIf="action === 'Update'" [value]="local_data.projects"  disabled >{{local_data.projects.name}}</mat-option>
+              <ng-container *ngFor="let project of user?.projects">
+                <ng-container *ngIf="local_data.date">
+                  <mat-option [value]="project">{{project.name}}</mat-option>
+                </ng-container>
+              </ng-container>
+            </mat-select>
+      </mat-form-field>
+      <mat-form-field class="mat-form-field">
+          <mat-label>Tasks</mat-label>
+          <mat-select name="task" formControlName="task" [(ngModel)]="local_data.tasks" value="task" required>
+            <mat-option  *ngIf="action === 'Update' && local_data.tasks !== {}" [value]="local_data.tasks"  disabled [hidden]>{{local_data.tasks.name}}</mat-option>
+  
+            <ng-container *ngFor="let task of tasks">
+              <mat-option [value]="task">{{task.name}}</mat-option>
+            </ng-container>
+          </mat-select>
+      </mat-form-field>
+      <mat-form-field class="mat-form-field">
+          <input placeholder="Note" matInput formControlName="note" type="string" id="note" name="note" [(ngModel)]="local_data.note" required>
+      </mat-form-field>
+      <mat-form-field class="mat-form-field">
+          <input placeholder="WorkingTime" formControlName="time" matInput type="number" name="time" id="time" [(ngModel)]="local_data.time" required>        
+      </mat-form-field>
+      <mat-form-field class="mat-form-field">
+          <mat-label>Type</mat-label>
+          <mat-select [(ngModel)]="selectedType"  formControlName="type" name="type" required>
+              <mat-option value="Normal working hours">Normal working hours</mat-option>
+              <mat-option value="Overtime">Overtime</mat-option>
+          </mat-select>
+      </mat-form-field>
+    </form>
+
+  </div>
+    
+  <ng-template #elseTemplate>
+    Sure to delete <b>{{local_data.note}}</b>?
+  </ng-template>
+</div>
+<div mat-dialog-actions *ngIf="action != 'Delete'; else elseAction">
+  <button mat-button [disabled]="!formTimesheet.valid" (click)="doAction()">{{action}}</button>
+  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div>
+<ng-template #elseAction>
+  <div mat-dialog-actions >
+    <button mat-button (click)="doAction()">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+  </div>
+</ng-template>

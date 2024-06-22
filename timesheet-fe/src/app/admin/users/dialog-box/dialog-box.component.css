@@ -1,0 +1,13 @@
+
+
+input, select {
+    width:212px;
+    flex: 1; /* Phần tử input sẽ mở rộng để lấp đầy không gian còn lại của nhóm */
+    height: 56px; /* Độ cao của input trong form */
+  }
+
+select {
+    padding: auto;
+    margin-top: 20px;
+    font-size: 18px;
+}

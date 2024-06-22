@@ -1,0 +1,44 @@
+
+
+<div class="contain">
+    <h1>Timesheet</h1>
+    <div class="row" > 
+    <div class="col-sm-3 header"> Log in</div>
+    <div class="col-sm-6 text-center">
+     <div class="alert alert-success col-sm-10" *ngIf="loginsuccess;else failmessage">
+       <strong>{{loginsuccess}} !!</strong>
+     </div>
+     <ng-template #failmessage>
+       <div class="alert alert-danger" *ngIf="loginfail">
+         <strong>{{loginfail}} !!</strong>
+       </div>
+     </ng-template>
+    </div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <form [formGroup]="loginForm" (submit)="login()"> 
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email:</label>
+            <input formControlName="email" type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+           </div>
+          <div *ngIf="loginForm.controls.email.touched">
+            <p class="alert alert-danger" *ngIf="loginForm.controls.email.errors?.required" >Email is required</p>
+            <p class="alert alert-danger" *ngIf="loginForm.controls.email.errors?.email" >Email is type email </p>
+          </div>
+          <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <input formControlName="password" type="password" class="form-control" id="passwordInput" aria-describedby="passHelp" placeholder="password">
+          </div>
+          <div *ngIf="loginForm.controls.password.touched">
+            <p class="alert alert-danger" *ngIf="loginForm.controls.password.errors?.required" >Password is required</p>
+          </div>
+          <div class="form-group" style="text-align:center;">
+              <button type="submit" class="btn btn-dark"  (click)="login()">Log in</button>
+              <div style="margin-top: 20px;" id="google-btn" >Login with google</div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+</div>

@@ -1,0 +1,65 @@
+<div class="client-container">
+    <!-- Phần header -->
+    <div class="header">
+        <h2>Task</h2>
+    </div>
+
+    <!-- Phần thân -->
+    <div class="body">
+
+      <!-- app.component.html -->
+
+  <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
+    
+    <!-- Bảng thứ nhất -->
+      <div>Common Task ({{totalCommon}})</div>
+         <p style="font-size: 16px;">These tasks are automatically added to all new projects</p>
+            <table mat-table  #table1 [dataSource]="dataSourceCommon"  class="my-table mat-elevation-z8">
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name. </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button class="btn btnEdit" (click)="openDialog('Update',element)">Edit</button> {{element.name}} 
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element" class="action-link"> 
+                    <div *ngIf="element.archive; else unarchiveButton">
+                        <button class="btn btnArchive" (click)="openDialog('Archive',element)">Archive</button>  
+                        <button disabled class="btn btnDisable btnDelete" (click)="openDialog('Delete',element)">Delete</button>  
+                    </div>
+                    <ng-template #unarchiveButton>
+                        <button class="btn btnArchive" (click)="openDialog('Unarchive',element)">Unarchive</button>  
+                        <button class="btn btnDelete" (click)="openDialog('Delete',element)">Delete</button>  
+                    </ng-template>
+                </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+    <!-- Bảng thứ hai -->
+        <div>Other Task({{totalOther}})</div>
+        <p style="font-size: 16px;">These task must be manually added to projects</p>
+        <table mat-table #table2 [dataSource]="dataSourceOther"  class="my-table mat-elevation-z8">
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name. </th>
+                <td mat-cell *matCellDef="let element">
+                    <button class="btn btnEdit" (click)="openDialog('Update',element)">Edit</button> {{element.name}} 
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element" class="action-link"> 
+                        <button class="btn btnDelete" (click)="openDialog('Delete',element)">Delete</button>  
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+</div>
+  
+       
