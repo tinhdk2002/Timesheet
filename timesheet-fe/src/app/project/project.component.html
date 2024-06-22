@@ -1,0 +1,51 @@
+<div class="client-container">
+    <!-- Phần header -->
+    <div class="header">
+        <h2>Project</h2>
+    </div>
+
+    <!-- Phần thân -->
+    <div class="body">
+
+      <!-- app.component.html -->
+
+  <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
+ <div *ngFor="let element of dataSource; let index = index">
+    <table #table class="my-table mat-elevation-z8" *ngIf="index == 0 || dataSource[index-1].client.id !== element.client.id">
+      <thead>
+        <ng-container >
+            <th >
+                <h4 >{{element.client.name}}</h4>
+            </th>
+        </ng-container>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of dataSource">
+              <td class="row" *ngIf="item.client.id === element.client.id">
+                  <span>
+                      {{item.name}}
+                  </span>
+                  <span class="manager">
+                      {{item.manager.firstName + " " + item.manager.lastName}}
+                  </span>
+  
+                  <span class="totalMember">
+                      {{item.users.length}} member
+                  </span>
+                  <span class="time">
+                      <span>{{item.startAt}}</span> -
+                      <span>{{item.endAt}}</span>
+                  </span>
+                  <div class="endRow">
+                        <a class="btn btnEdit btn-action" (click)="openDialog('Update',item)">Edit</a> | 
+                        <a class="btn btnDelete btn-action" (click)="openDialog('Delete',item)">Delete</a> 
+                  </div>
+              </td>
+          </tr>
+      </tbody>
+      </table>
+</div>
+
+</div>
+  
+       

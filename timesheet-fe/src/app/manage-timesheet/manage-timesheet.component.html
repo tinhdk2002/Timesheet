@@ -1,0 +1,121 @@
+
+<div class="row">
+    <div class="card main-content">
+        <div _ngcontent-c13 class="header">
+            <h2 _ngcontent-c13 class="title">Timesheets</h2>
+            <div _ngcontent-c13 class="gr-filter">
+                <div _ngcontent-c13 class="item">
+                    <mat-form-field>
+                        <mat-label>Project</mat-label>
+                        <mat-select [(ngModel)]="selectProject" (ngModelChange)="changeSelectProject()">
+                            <mat-option value="all">All</mat-option>
+                            <ng-container *ngFor="let project of dataProject">
+                                <mat-option [value]="project">{{project.name}}</mat-option>
+
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div _ngcontent-c1 class="body table-responive">
+            <!-- <div _ngcontent-c1 style="display: flex;justify-content: space-between;align-items: flex-start;flex-wrap: wrap;">
+                <div style="display:flex; align-items: center; flex-wrap: wrap">
+                    <mat-button-toggle-group>
+                        <mat-button-toggle>
+                            <button class="mat-button-toggle-button" type="button" id="mat-button-toggle1" tabindex="0" (click)="prevDate()">
+                                <div class="mat-button-toggle-label-content">
+                                    <mat-icon class="mat-icon material-icons mat-icon-no-color" role="img" aria-hidden="true">chevron_left</mat-icon>
+                                </div>
+                            </button>
+                        </mat-button-toggle>
+                        <mat-button-toggle>
+                            <button class="mat-button-toggle-button" type="button" id="mat-button-toggle1" tabindex="0" (click)="nextDate()">
+                                <div class="mat-button-toggle-label-content">
+                                    <mat-icon class="mat-icon material-icons mat-icon-no-color" role="img" aria-hidden="true">chevron_right</mat-icon>
+                                </div>
+                            </button>
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                    <h2 style="padding: 0 20px"><span>{{this.showByCanlendar}}: </span> {{dateStart | date: 'dd MMMM yyyy'}} - {{dateEnd | date: 'dd MMMM yyyy'}} </h2>
+                </div>
+                <div>
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="showByCanlendar" (ngModelChange)="showDate()">
+                            <mat-option value="week">Week</mat-option>
+                            <mat-option value="month">Month</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div> -->
+
+            <div _ngcontent-c1 class="row">
+                <div class="col-sm-2">
+                    <button _ngcontent-c1="" class="btn btn-success waves-effect ng-star-inserted" (click)="openDialog('Approval',data)" style="width: 100%" type="submit" aria-expanded="false"> Approve 
+                    </button>
+                </div>
+                <div class="col-sm-2">
+                    <button _ngcontent-c1="" class="btn bg-grey waves-effect ng-star-inserted" (click)="openDialog('Reject',data)" style="width: 100%" type="submit"> Reject </button>
+                </div>
+            </div>
+            <div _ngcontent-c1 class="row">
+                <ng-container *ngIf="data">
+                        <ng-container *ngFor="let element of dataSource; let index = index">
+                            <div class="panel">
+                                <div  class="title-panel">
+                                    <div class="nameTitle" style="color:white;" (click)="showUsersData(element)">{{ element.name }}</div>
+                                    <span style="color:white">
+                                        {{element.totalTime * 60 * 1000 | date:'mm:ss':'UTC' }}
+                                        <span>
+                                            <mat-checkbox [(ngModel)]="element.completed"
+                                                            [checked]="element.completed"
+                                                            [indeterminate]="someComplete(element)"
+                                                            (change)="setAll($event.checked, element)"
+                                            >
+
+                                            </mat-checkbox>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div *ngIf="element.showUsersData" class="panel">
+                                    <ng-container  *ngFor="let user of element.user">
+                                        <div class="title-panel">
+                                            <div  class="nameTitle" style="color: white;" (click)="showUserTimesheet(user)" >{{user.firstName + ' ' + user.lastName}}</div>
+                                            <span style="color:white">
+                                                {{user.totalTime * 60 * 1000 | date:'mm:ss':'UTC'}}
+                                                <span>
+                                                    <mat-checkbox [(ngModel)]="user.completed"
+                                                                    [checked]="user.completed"
+                                                                    [indeterminate]="someCompleteUser(user)"
+                                                                    (change)="setAllUser($event.checked, user)"
+                                                                    (ngModelChange)="updateAllCompleteUser(element)"
+                                                    >
+                                                    </mat-checkbox>
+                                                </span>
+                                            </span>
+                                            
+                                        </div>
+                                        <div *ngIf="user.showTimesheet"  >
+                                            <div *ngFor="let timesheet of user.timesheet" style="display: flex;justify-content: space-between; height: 50px; align-items: baseline;" class="title-panel dataTimesheet" (click)="showTimesheet(timesheet)">
+                                                    <div class="nameTitle" style="color:white">{{timesheet.date}}</div>
+                                                    <span style="color:white">
+                                                        {{timesheet.time * 60 * 1000 | date:'mm:ss':'UTC'}}
+                                                        <span>
+                                                            <mat-checkbox [(ngModel)]="timesheet.completed" (ngModelChange)="updateAllComplete(user, element)">
+
+                                                            </mat-checkbox>
+                                                        </span>
+                                                    </span>
+                                            </div>
+
+                                        </div>
+                                    </ng-container>                                        
+                                </div>
+                            </div>
+                        </ng-container>
+                </ng-container>
+            </div>
+            
+        </div>
+    </div>
+</div>

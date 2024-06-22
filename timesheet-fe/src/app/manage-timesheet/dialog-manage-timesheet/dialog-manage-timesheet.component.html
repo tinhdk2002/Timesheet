@@ -1,0 +1,11 @@
+<div >
+    <div style="display: flex; justify-content: center; flex-direction: column;align-items: center;margin: 20px;">
+        <div>Are you sure?</div>
+        <div>Sure to {{action + ' ' + local_data.note}} </div>
+    </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="doAction()">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+  </div>
+
+</div>

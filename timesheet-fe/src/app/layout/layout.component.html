@@ -1,0 +1,72 @@
+<div class="container">
+    <!-- Phần header -->
+    <div class="header">
+        <span  style="display: flex;align-items: center;">
+          <img src="assets/Timesheet.png" alt="logo">
+          <span class="title">Timesheet</span>
+        </span>
+        <button class="textChange btnLogout" (click)="logOut()"><i class="material-icons">input</i> <span class="text">Logout</span></button>
+    </div>
+
+    <!-- Phần thân -->
+    <div class="body">
+        <!-- Phần nav -->
+        <div class="nav">
+            <ul>
+                <li>
+                  <a routerLink="timesheet" class="textChange">
+                    <i class="material-icons ng-star-inserted">alarm</i> 
+                    <span class="text"> My Timesheet</span>
+                  </a>
+                </li>
+                <ng-container *ngIf="role === 'admin' || role === 'manager'">
+                  <li class="dropdown" *ngIf="role === 'admin'">
+                    <i class="material-icons ng-star-inserted">group_work</i>
+                    <span class="text"> Admin</span> 
+                      <ul class="dropdown-content">
+                             
+                          <li><a routerLink="admin/users">
+                            <i class="material-icons ng-star-inserted">people</i>
+                            <span class="text">Users</span>
+                          </a></li>
+                          <li><a routerLink="admin/clients">
+                            <i class="material-icons ng-star-inserted">people_outline</i>
+                            <span class="text">Clients</span>
+                          </a></li>
+                          <li><a routerLink="admin/tasks">
+                            <i class="material-icons ng-star-inserted">import_contacts</i>
+                            <span class="text">Tasks</span>
+                          </a></li>
+                      </ul>
+                  </li>
+                  <li><a routerLink="project" class="textChange">
+                    <i class="material-icons ng-star-inserted">assessment</i>
+                    <span class="text">Project</span>
+                    </a></li>
+                  <li><a routerLink="manageTimesheets" class="textChange"> 
+                    <i class="material-icons ng-star-inserted">date_range</i>
+                    <span class="text">Manage Timesheet</span>
+                  </a></li>
+                </ng-container>
+            </ul>
+        </div>
+
+        <!-- Phần hiển thị nội dung từ các component con -->
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
+<script> 
+  const dropdownToggles = document.querySelectorAll(".dropdown");
+    console.log(dropdownToggles)
+  dropdownToggles.forEach(function(toggle) {
+    console.log(toggle)
+    toggle.addEventListener("click", function() {
+      const dropdownContent = toggle.querySelector(".dropdown-content");
+      dropdownContent.classList.toggle("active");
+    });
+  });
+
+</script>

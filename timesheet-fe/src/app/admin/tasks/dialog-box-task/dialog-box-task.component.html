@@ -1,0 +1,37 @@
+<!-- dialog-box.component.html -->
+<h1 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h1>
+<div mat-dialog-content>
+
+  <div *ngIf="action != 'Delete' && action !='Archive' && action !='Unarchive'; else elseTemplate">
+  <form [formGroup]="formTask">
+
+    <mat-form-field>
+        <input placeholder="Name" formControlName="name" matInput type="text" id="name" name="name" [(ngModel)]="local_data.name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Task Type</mat-label>
+        <select matNativeControl formControlName="type" [(ngModel)]="local_data.type">
+            <option value="common">Common Task</option>
+            <option value="other">Other Task</option>
+        </select>
+    </mat-form-field>
+  </form>
+    
+
+  </div>
+ 
+    
+  <ng-template #elseTemplate>
+    Sure to {{action.toLocaleLowerCase()}} <b>{{local_data.name}} </b>?
+  </ng-template> 
+</div>
+<div mat-dialog-actions *ngIf="action == 'Add' || action == 'Update';else elseAction">
+  <button mat-button [disabled]="!formTask.valid" (click)="doAction()">{{action}}</button>
+  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div>
+<ng-template #elseAction>
+<div mat-dialog-actions >
+  <button mat-button (click)="doAction()">{{action}}</button>
+  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div>
+</ng-template>

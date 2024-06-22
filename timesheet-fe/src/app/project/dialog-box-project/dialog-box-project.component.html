@@ -1,0 +1,133 @@
+<div class="form-container">
+    <h2>Form {{action}} <span class="close-icon" (click)="closeDialog()">x</span></h2>
+
+    <div mat-tab-content >
+      <form [formGroup]="formProject">
+
+        <mat-tab-group >
+            <mat-tab label="General">
+              <ng-template mat-tab-label>General</ng-template>
+                  <div class="form-group">
+                    <label for="input1">Client</label>
+                    <select name="input1" id="client" formControlName="client" style="color: black;" [(ngModel)]="local_data.client"  required>
+                        <option *ngIf="local_data.client !== undefined" [ngValue]="local_data.client" value=`${local_data.client}` hidden>{{local_data.client.name}}</option>
+                        <option *ngFor="let client of clientList" [ngValue]="client" value=`${client}`>{{client.name}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="input2">Project Name</label>
+                    <input type="text" matInput id="input2" placeholder="Project name" name="projectName" formControlName="projectName" [(ngModel)]="local_data.name" required >
+                  </div>
+                  <div class="form-group">
+                    <label for="input3">Project Code</label>
+                    <input type="text" matInput id="input3" placeholder="Project code" name="projectCode" formControlName="projectCode" [(ngModel)]="local_data.code" required >
+                  </div>
+                  <div class="form-group">
+                    <label>Date:</label>
+                    <input type="date" matInput id="startAt" class="date" placeholder="Start at" name="projectStart" formControlName="projectStart"  [(ngModel)]="local_data.startAt"  required >
+                     <span class="to">
+                        to
+                     </span> 
+                    <input type="date" matInput id="endAt" class="date" placeholder="End at" name="projectEnd" formControlName="projectEnd" [(ngModel)]="local_data.endAt"  required >
+                  </div>
+
+              
+            </mat-tab>
+            <mat-tab label="Team">
+                <div>
+                </div>
+                  <button mat-button  mat-flat-button color="primary" class="btnRight rightOverlay" (click)="showMember()">Add Member</button>
+                  <div class="content">
+                      <div class="member-list">
+                        <ul>
+                            <li *ngFor="let user of selectedMembers" class="userList">
+                                <div  class="leftTeam">
+                                    <div>
+                                        <div>{{user.firstName + ' '+ user.lastName}}  <span style="font-weight: 800; color:cornflowerblue; text-transform: uppercase;"> {{user.role}}</span></div>
+                                        <div>{{user.email}}</div>
+                                    </div>
+                                    <button class="rightOverlay" (click)="removeMember(user)"><mat-icon _ngcontent-c15="" class="mat-icon material-icons mat-icon-no-color">clear</mat-icon></button>
+
+                                </div>
+ 
+                            </li>
+                        </ul>
+                      </div>
+                      <div class="add-member-list" *ngIf="show">
+                        <!-- Danh sách thành viên sẽ hiển thị ở đây -->
+                            <ul>
+                            <!-- Danh sách các member đã được chọn -->
+                            <li *ngFor="let user of userList" class="userList">
+                                <div style="display: flex;">
+                                    <span (click)="addMember(user)"><i _ngcontent-c15="" class="material-icons"> add_circle_outline </i></span>
+                                    <div style="margin-bottom: 10px;margin-left: 10px;">
+                                      <div style="display: flex;">
+                                        <span style="width: 100px;">{{ user.firstName }} </span> <span style="font-weight: 800; color:cornflowerblue; text-transform: uppercase;"> {{user.role}}</span>
+                                      </div>
+                                        <div>{{ user.email }}</div>
+                                    </div>
+                                </div>
+                            </li>
+                            </ul>
+                      </div>
+                  </div>
+              </mat-tab>
+            <mat-tab label="Tasks">
+              <ng-template mat-tab-label>Tasks</ng-template>
+              <div class="contentTask">
+                
+                <table class="my-table">
+                    <!-- Table 1: Dữ liệu đã chọn -->
+                  <div>
+                    <h2>Tasks</h2>
+                    <table mat-table #table1 [dataSource]="selectedTasks"class="mat-elevation-z8">
+                      <!-- Định nghĩa các cột cho bảng 1 -->
+                      <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef> Tasks </mat-header-cell>
+                        <mat-cell *matCellDef="let element"><mat-icon _ngcontent-c15="" class="mat-icon material-icons mat-icon-no-color" role="img" aria-hidden="true" (click)="removeTask(element)">clear</mat-icon> {{element.name}} </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="type">
+                        <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+                        <mat-cell *matCellDef="let element" > {{element.type}} </mat-cell>
+                      </ng-container>
+
+                      <!-- Hiển thị dữ liệu cho từng cột -->
+                      <mat-header-row *matHeaderRowDef="['name', 'type']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['name', 'type'];"></mat-row>
+                    </table>
+                  </div>
+
+                <!-- Table 2: Select Tasks -->
+                  <div>
+                    <h2>Select Tasks</h2>
+                    <table mat-table #table2 [dataSource]="tasks" class="my-table mat-elevation-z8">
+                      <!-- Định nghĩa các cột cho bảng 2 -->
+                      <ng-container matColumnDef="taskName">
+                        <mat-header-cell *matHeaderCellDef> Task Name </mat-header-cell>
+                        <mat-cell *matCellDef="let task"> <span><i _ngcontent-c15="" class="material-icons" (click)="addTask(task)"> add_circle_outline </i></span> {{task.name}} </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="taskType">
+                        <mat-header-cell *matHeaderCellDef> Task Type </mat-header-cell>
+                        <mat-cell *matCellDef="let task"> {{task.type}} </mat-cell>
+                      </ng-container>
+              
+
+                      <!-- Hiển thị dữ liệu cho từng cột -->
+                      <mat-header-row *matHeaderRowDef="['taskName', 'taskType']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['taskName', 'taskType'];"></mat-row>
+                    </table>
+                  </div>
+                </table>
+              </div>
+            </mat-tab>
+          </mat-tab-group>  
+          
+      </form>
+    </div>
+    <div mat-dialog-actions class="dialog-actions" >
+        <button mat-button [disabled]="!formProject.valid" (click)="doAction()" >Save</button>
+        <button mat-button  mat-flat-button color="warn" (click)="closeDialog()">Cancel</button>
+
+    </div>
+  </div>
+  
