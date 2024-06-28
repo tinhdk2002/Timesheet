@@ -72,7 +72,7 @@ export class UserService {
     }
 
     findEmail(email: string){
-        return this.userRepository.findOne(
+        return this.userRepository.findOneOrFail(
             {
                 relations: ['projects']
                 ,where: {email: email}
@@ -86,12 +86,15 @@ export class UserService {
         return users
     }
 
-    delete(userId: number){
+    async delete(userId: number){
+        const user: User = await this.findUserById(userId)
+        if(!user)
+            throw new NotFoundException('Not found user')
         return this.userRepository.delete(userId)
     }
 
     findTimesheetByUser(userId: number){
-        return this.userRepository.findOne({
+        return this.userRepository.findOneOrFail({
             relations:['timesheet'],
             where: {id: userId}
         })
