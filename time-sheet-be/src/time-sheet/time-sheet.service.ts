@@ -45,10 +45,13 @@ export class TimeSheetService {
         }
     }
     if(isTaskOfProject)
-    {
+    { 
+      if (createTimeSheetDto.time > 0 && createTimeSheetDto.time <= 24)
+        timesheet.time = createTimeSheetDto.time;
+      else 
+        throw new BadRequestException('Time must be greater than 0 and less than 24 hours')
       timesheet.tasks = tasks
       timesheet.note = createTimeSheetDto.note;
-      timesheet.time = createTimeSheetDto.time;
       timesheet.type = createTimeSheetDto.type;
       timesheet.user = createTimeSheetDto.user;
 
@@ -193,11 +196,6 @@ export class TimeSheetService {
         {
           timesheet.status = StatusTS.APPROVE
         }
-    // for(const timesheet of timeSheetInWeek)
-    //   if(timesheet.status === StatusTS.PENDING)
-    //     {
-    //       timesheet.status = StatusTS.APPROVE
-    //     }
     return await this.timesheetRepository.save(data.timesheets)
     }
     
