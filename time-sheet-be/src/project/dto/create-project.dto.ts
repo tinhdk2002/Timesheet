@@ -8,14 +8,17 @@ import { Unique } from "typeorm";
 
 export class CreateProjectDto {
     @IsString()
+    @IsNotEmpty()
     @ApiProperty()
     name: string
 
     @IsString()
+    @IsNotEmpty()
     @ApiProperty()
     code: string
     
     @IsDate()
+    @IsNotEmpty()
     @ApiProperty()
     startAt: Date;
 
@@ -29,10 +32,12 @@ export class CreateProjectDto {
     client: Client;
 
     @IsArray()
+    @IsNotEmpty()
     @ApiProperty()
     users: User[];
 
     @IsArray()
+    @IsNotEmpty()
     @ApiProperty()
     tasks: Task[];
 } 
