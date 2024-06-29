@@ -10,6 +10,7 @@ import { ProjectComponent } from './project/project.component';
 import { TimesheetComponent } from './timesheet/timesheet.component';
 import { ManageTimesheetComponent } from './manage-timesheet/manage-timesheet.component';
 import { appGuard } from './app.guard';
+import { InforUserComponent } from './inforUser/inforUser.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'login',pathMatch:'full'}, 
@@ -21,6 +22,7 @@ const routes: Routes = [
     { path: 'project', component: ProjectComponent, canActivate:[appGuard] },
     { path: 'timesheet',component: TimesheetComponent, canActivate:[appGuard] },
     { path: 'manageTimesheets',component: ManageTimesheetComponent, canActivate:[appGuard]  },
+    { path: 'inforUser', component: InforUserComponent, canActivate:[appGuard]},
   ]},
 ];
 
