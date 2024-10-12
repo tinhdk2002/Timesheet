@@ -7,9 +7,11 @@ import { Task } from 'src/task/entities/task.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { RoleGuard } from 'src/auth/guard/role.guard';
 import { Project } from 'src/project/entities/project.entity';
+import { PositionModule } from 'src/admin/position/position.module';
+import { BranchModule } from 'src/admin/branch/branch.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Project])],
+  imports: [TypeOrmModule.forFeature([User, Project]), PositionModule, BranchModule],
   providers: [UserService],
   controllers: [UserController],
   exports:[UserService]

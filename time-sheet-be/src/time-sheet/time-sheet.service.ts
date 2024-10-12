@@ -2,17 +2,10 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateTimeSheetDto } from './dto/create-time-sheet.dto';
 import { UpdateTimeSheetDto } from './dto/update-time-sheet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Project } from 'src/project/entities/project.entity';
 import { TimeSheet } from './entities/time-sheet.entity';
-import { Between, Not, Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { ProjectService } from 'src/project/project.service';
-import { TaskService } from 'src/task/task.service';
-import { time } from 'console';
 import { StatusTS } from './ultis/status.enum';
-import e from 'express';
-import { NotContains } from 'class-validator';
-import { NotFoundError } from 'rxjs';
-import { start } from 'repl';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { UserRole } from 'src/utils/user-role.enum';
@@ -45,10 +38,13 @@ export class TimeSheetService {
         }
     }
     if(isTaskOfProject)
-    {
+    { 
+      if (createTimeSheetDto.time > 0 && createTimeSheetDto.time <= 24)
+        timesheet.time = createTimeSheetDto.time;
+      else 
+        throw new BadRequestException('Time must be greater than 0 and less than 24 hours')
       timesheet.tasks = tasks
       timesheet.note = createTimeSheetDto.note;
-      timesheet.time = createTimeSheetDto.time;
       timesheet.type = createTimeSheetDto.type;
       timesheet.user = createTimeSheetDto.user;
 
@@ -61,11 +57,10 @@ export class TimeSheetService {
       return this.timesheetRepository.save(timesheet);
     } 
     throw new BadRequestException();
-
   }
 
-  findAll() { 
-    return this.timesheetRepository.find(
+  async findAll() { 
+    return await this.timesheetRepository.find(
       {
         relations:['tasks', 'projects','user'],
       }
@@ -83,27 +78,27 @@ export class TimeSheetService {
     const currentDate = date;
     const startOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1)));
     const endOfWeek = new Date(currentDate.setDate(startOfWeek.getDate() + 6));
-    
-    console.log(startOfWeek)
-    console.log(endOfWeek)
-
+  
     return await this.timesheetRepository.find({
       where: {
         date: Between(this.formatDate(startOfWeek), this.formatDate(endOfWeek)),
-        
       }
     })
   }
 
-  findOne(id: number) {
-    return this.timesheetRepository.find(({
+  async findOne(id: number) {
+    let timesheet =  await this.timesheetRepository.find(({
       relations:['tasks', 'projects'],
       where: {id: id}
     }))
+    if (!timesheet) {
+      throw new NotFoundException(`Not found timesheet #${id}`)
+    }
+    return timesheet
   }
 
-  findTimesheetByUser(userId: number) {
-    return this.timesheetRepository.find({
+  async findTimesheetByUser(userId: number) {
+    return await this.timesheetRepository.find({
       relations:['projects','user','tasks'],
       where: {
         user: {id: userId}
@@ -114,7 +109,7 @@ export class TimeSheetService {
   async getTimeSheetPendingByManager(userId: number){
     const user: User = await this.userService.findUserById(+userId)
   
-      const isManger =  user.role.includes(UserRole.PROJECT_MANAGER) 
+      const isManger =  user.role.includes(UserRole.PROJECT_MANAGER || UserRole.ADMIN) 
       if(isManger)
         return  this.findTimesheetByProject(userId)
       else if(user.role.includes(UserRole.ADMIN)){
@@ -123,7 +118,7 @@ export class TimeSheetService {
   }
 
   async findTimesheetByProject(userId : number){
-    const projects: any = await this.projectService.findProjectByUserId(userId)
+    const projects: any = await this.projectService.findProjectsByUserId(userId)
     let arrTimesheet = []
     let arrTimesheetPending = []
     for(let project of projects){
@@ -131,38 +126,42 @@ export class TimeSheetService {
     }
     for(let ts of arrTimesheet)
       if(ts.status == 'pending')
-        arrTimesheetPending.push(await this.findTimesheet(ts))
+        arrTimesheetPending.push(await this.findTimesheet(ts.id))
       return arrTimesheetPending
   }
 
-  findTimesheet(timesheet: any){
-    return this.timesheetRepository.findOne({
+  async findTimesheet(timesheetID: any){
+    let timesheet =  await this.timesheetRepository.findOne({
       relations: ['projects', 'tasks','user'],
       where: {
-        id: timesheet.id
+        id: timesheetID
       }
     })
+    if (!timesheet) {
+      throw new NotFoundException(`Not found timesheet #${timesheetID}`);
+    }
+    return timesheet
   }
 
 
-  findTimesheetPending(){
-    return this.timesheetRepository.find({
+  async findTimesheetPending(){
+    return await this.timesheetRepository.find({
       relations: ['projects', 'tasks','user'],
       where:{
         status: StatusTS.PENDING}
     })
   }
 
-  findTimesheetApproval(){
-    return this.timesheetRepository.find({
+  async findTimesheetApproval(){
+    return await this.timesheetRepository.find({
       relations: ['projects', 'tasks','user'],
       where:{
         status: StatusTS.APPROVE}
     })
   }
 
-  findTimesheetReject(){
-    return this.timesheetRepository.find({
+   async findTimesheetReject(){
+    return await this.timesheetRepository.find({
       relations: ['projects', 'tasks','user'],
       where:{
         status: StatusTS.REJECT}
@@ -183,9 +182,6 @@ export class TimeSheetService {
     if(data.date)
       data.date = data.date
     else  data.date = new Date();
-    const currentDate = new Date(data.date);
-    const lastWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
-    const timeSheetInWeek = await this.findTimesheetByWeek(lastWeek)   
     
     if(data.timesheets)
       for(let timesheet of data.timesheets)
@@ -193,21 +189,17 @@ export class TimeSheetService {
         {
           timesheet.status = StatusTS.APPROVE
         }
-    // for(const timesheet of timeSheetInWeek)
-    //   if(timesheet.status === StatusTS.PENDING)
-    //     {
-    //       timesheet.status = StatusTS.APPROVE
-    //     }
     return await this.timesheetRepository.save(data.timesheets)
     }
     
   async rejectTimesheetByWeek(data){
-    if(data.date)
+    if(data.date) {
       data.date = data.date
-    else data.date = new Date()
-    const currentDate = new Date(data.date);
-    const lastWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
-    const timeSheetInWeek = await this.findTimesheetByWeek(lastWeek)   
+    }
+    else { 
+      data.date = new Date() 
+    }
+
     if(data.timesheets)
       for(let timesheet of data.timesheets)
         if(timesheet.status === StatusTS.PENDING)
@@ -231,14 +223,14 @@ export class TimeSheetService {
       timesheet.time = updateTimeSheetDto.time;
     if(updateTimeSheetDto.user)
       timesheet.user = updateTimeSheetDto.user;
-
-
-    this.timesheetRepository.save(timesheet)
-    return { success: true, message: 'Update successful' };
+    return await this.timesheetRepository.save(timesheet)
   }
 
-  remove(id: number) {
-    this.timesheetRepository.delete(id)
-    return { success: true, message: 'Delete successful' };
+  async remove(id: number) {
+    let timesheet = await this.findOne(id)
+    if(!timesheet) {
+      throw new NotFoundException(`Not found timesheet ${id}`)
+    }
+    return await this.timesheetRepository.delete(id)
   }
 }

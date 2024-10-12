@@ -1,0 +1,31 @@
+<div class="user-container">
+    <!-- Phần header -->
+    <div class="header">
+        <h2>User</h2>
+    </div>
+
+    <!-- Phần thân -->
+    <div class="body">
+
+      <!-- app.component.html --> 
+
+  <div class="user-list"></div>
+    <div class="user-card" >
+      <div class="user-details">
+        <h3 class="dlFlex"><span class="textBold">Name:</span> {{ user.firstName }} {{ user.lastName }}</h3>
+        <p class="dlFlex"><span class="textBold">Email:</span> {{ user.email }}</p>
+        <p class="dlFlex"><span class="textBold">Role:</span>{{ user.role }}</p>
+        <p class="dlFlex"><span class="textBold">Sex:</span> {{ user.sex }}</p>
+        <p class="dlFlex"><span class="textBold">Position:</span> {{ user.position.name }}</p>
+        <p class="dlFlex"><span class="textBold">Branch:</span> {{ user.branch.name }}</p>
+        <p class="dlFlex"><span class="textBold">Projects:</span></p>
+        <ul>
+          <li *ngFor="let project of user.projects">{{ project.name }}</li>
+        </ul>
+        <button class="btn-edit" (click)="openDialog('Update', user)">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+       

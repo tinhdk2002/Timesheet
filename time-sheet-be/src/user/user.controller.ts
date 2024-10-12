@@ -37,7 +37,6 @@ createUser(@Body() createUserDto: CreateUserDto) {
     return  this.userService.create(createUserDto) 
 }
  
-@UseGuards(new RoleGuard([UserRole.ADMIN]))
 @Put(':id')
 updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto)

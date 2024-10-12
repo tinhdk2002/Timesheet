@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl, Validators,FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormGroup, Validators,FormBuilder } from '@angular/forms';
 import { ApiService } from '../api.service';
 
 declare var google:any;
@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit{
   }
 
   setDataLocal(token: any){
+    this.loginsuccess = "Login Success-Going to Dashboard";
     localStorage.setItem('token', token)
     let payload=this.apiService.getpayload();
     localStorage.setItem('currentemployeeemail',payload.email);
@@ -53,16 +54,16 @@ export class LoginComponent implements OnInit{
     if(response){
       //decode the token
       const payload = this.decodeToken(response.credential)
-      console.log(payload)
       this.apiService.loginGG(payload).subscribe((response: any) => {
         this.setDataLocal(response.acces_token)
+        this.loginsuccess = "Login Success-Going to Dashboard"; // Add this line
         setTimeout(() => {
             this.router.navigate(['app/timesheet']);
         }, 2000);
       },
-      (error) => {
+      (err) => {
         this.loginfail = 'Account does not exist!'
-        console.log(error.error.message)
+        console.error(err.error)
       }
       )
     }
@@ -77,23 +78,20 @@ export class LoginComponent implements OnInit{
     this.apiService.login(this.loginForm.value)
       .subscribe(
         (response: any) => {
-          this.loginsuccess = "Login Success-Going to Dashboard";
           this.setDataLocal(response.acces_token)
           setTimeout(() => {
             this.router.navigate(['app/timesheet']);
           }, 2000);
           
         },
-        (error) => { 
+        (err) => { 
           this.loginfail = "Invalid Username/Password";
-          console.log(error.error.message); }
+          console.error(err.error)
+        }
       );
   }
   get form(){
     return this.loginForm.controls;
   }
-  // clearForm(){
-  //   (<HTMLFormElement>document.getElementById("loginform")).reset();
-  //  }
 
 }

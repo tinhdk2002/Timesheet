@@ -12,26 +12,28 @@ export class ClientService {
     private clientRespository: Repository<Client>
   ) {}
 
-  create(createClientDto: CreateClientDto) {
+  async create(createClientDto: CreateClientDto) {
     let client = new Client();
     client.code = createClientDto.code;
     client.name = createClientDto.name;
     if(createClientDto.address)
       client.address = createClientDto.address;
-    return this.clientRespository.save(client).catch((e) => {
-      console.log(e.detail)
-    })
+    return await this.clientRespository.save(client)
   }
 
-  findAll() {
-    return this.clientRespository.find();
+  async findAll() {
+    return await this.clientRespository.find();
   }
 
-  findOne(id: number) {
-    return this.clientRespository.findOne({where: {id: id}})
+  async findOne(id: number) {
+    let client =  await this.clientRespository.findOne({where: {id: id}})
+    if (!client) {
+      throw new NotFoundException(`Not found client #${id}`);
+    }
+    return client
   }
 
-  async  update(id: number, updateClientDto: UpdateClientDto) {
+  async update(id: number, updateClientDto: UpdateClientDto) {
     let client = await this.findOne(id)
     if(updateClientDto.name)
       client.name = updateClientDto.name

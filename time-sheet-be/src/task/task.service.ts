@@ -12,7 +12,7 @@ export class TaskService {
     private taskRepository: Repository<Task>,
     ) {}
 
-  async create(createTaskDto: CreateTaskDto, userId) {
+  async create(createTaskDto: CreateTaskDto) {
     let task = new Task();
     task.name = createTaskDto.name;
     task.type = createTaskDto.type;
@@ -21,28 +21,32 @@ export class TaskService {
     return this.taskRepository.save(task)
   }
 
-  findAll() {
-    return this.taskRepository.find();
+  async findAll() {
+    return await this.taskRepository.find();
   }
 
-  findAllTypeCommon() {
-    return this.taskRepository.find(
+  async findAllTypeCommon() {
+    return await this.taskRepository.find(
       {
         where: {type: Type.COMMON}
       }
     )
   }
 
-  findAllTypeOther() {
-    return this.taskRepository.find(
+  async findAllTypeOther() {
+    return await this.taskRepository.find(
       {
         where: {type: Type.OTHER}
       }
     )
   }
 
-  findOne(id: number) {
-    return this.taskRepository.findOne({ where: {id: id}});
+  async findOne(id: number) {
+    let task =  await this.taskRepository.findOne({ where: {id: id}});
+    if (!task) {
+      throw new NotFoundException(`Not found task #${id}`);
+    }
+    return task
   }
 
   
@@ -64,7 +68,7 @@ export class TaskService {
     return this.taskRepository.delete(id);
   }
 
-  filterTask(name: string){
-    return this.taskRepository.find({where: {name: Like(`%${name}%`)}})
+  async filterTask(name: string){
+    return await this.taskRepository.find({where: {name: Like(`%${name}%`)}})
   }
 }

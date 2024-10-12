@@ -16,8 +16,6 @@ export interface ClientsData {
   styleUrl: './dialog-box-client.component.css'
 })
 export class DialogBoxClientComponent {
-
-  
   constructor(
     private apiService: ApiService,
     public dialogRef: MatDialogRef<DialogBoxClientComponent>,
@@ -30,7 +28,6 @@ export class DialogBoxClientComponent {
   name: any;
   code: any;
   address: any;
-
   action:string;
   local_data:any;
 
@@ -40,9 +37,6 @@ export class DialogBoxClientComponent {
     address: new FormControl('', Validators.required),
   });
 
-
-  
-
   doAction(){
     this.dialogRef.close({event:this.action,data:this.local_data});
   }
@@ -50,6 +44,5 @@ export class DialogBoxClientComponent {
   closeDialog(){
     this.dialogRef.close({event:'Cancel'});
   }
-
 }
 

@@ -38,12 +38,9 @@ export class TasksComponent implements OnInit {
   }
 
    fetchTasks() {
-    // Gọi API hoặc service để lấy danh sách user từ backend
-      // Đây là ví dụ giả lập dữ liệu
      this.apiService.getAllTasks().subscribe((tasks: any) => {
       this.tasks = tasks;
 
-      // Xử lý dữ liệu tasks ở đây nếu cần
     });
      this.apiService.getAllTasksCommon().subscribe((tasks: any) => {
       this.dataSourceCommon = tasks
@@ -54,7 +51,6 @@ export class TasksComponent implements OnInit {
       this.totalOther = this.dataSourceOther.length;
 
     })
-    // Tính toán số trang dựa trên tổng số user và số user trên mỗi trang
   }
 
 
@@ -81,7 +77,6 @@ export class TasksComponent implements OnInit {
   addRowData(row_obj: any){
     this.apiService.postTask(row_obj)
       .subscribe(response => {
-        console.log(response)
         if(row_obj.type == 'common')
         this.dataSourceCommon.push({
           id: response.id,
@@ -97,6 +92,7 @@ export class TasksComponent implements OnInit {
         }
         this.table1.renderRows()
         this.table2.renderRows()
+        this.fetchTasks()
       },
       (err) => console.error(err.error)
       )
@@ -106,7 +102,7 @@ export class TasksComponent implements OnInit {
     if(row_obj.type == 'common'){
       this.apiService.updateTask(Number(row_obj.id), row_obj).subscribe( 
         response => {
-          console.log(response);
+;
           this.dataSourceCommon = this.dataSourceCommon.filter((value: any ,key: any)=>{
             if(value.id == row_obj.id){
               value.name = row_obj.name;
@@ -121,7 +117,7 @@ export class TasksComponent implements OnInit {
     else {
       this.apiService.updateTask(Number(row_obj.id), row_obj).subscribe( 
         response => {
-          console.log(response);
+;
           this.dataSourceOther = this.dataSourceOther.filter((value: any ,key: any)=>{
             if(value.id == row_obj.id){
               value.name = row_obj.name;
@@ -142,7 +138,6 @@ export class TasksComponent implements OnInit {
   archiveRowData(row_obj: any){
     this.apiService.updateTask(Number(row_obj.id), row_obj).subscribe( 
       response => {
-        console.log(response)
         this.dataSourceCommon = this.dataSourceCommon.filter((value: any ,key: any)=>{
           if(value.id == row_obj.id){
             value.name = row_obj.name;
@@ -167,7 +162,6 @@ export class TasksComponent implements OnInit {
     
     this.apiService.deleteTask(row_obj.id).subscribe(
       response => {
-        console.log(response)
         if(row_obj.type == 'common'){
           this.dataSourceCommon = this.dataSourceCommon.filter((value: any,key: any)=>{
             return value.id != row_obj.id;
@@ -180,6 +174,7 @@ export class TasksComponent implements OnInit {
         }
         this.table1.renderRows()
         this.table2.renderRows()
+        this.fetchTasks()
       },
       (error) => {
         console.error(error)

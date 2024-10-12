@@ -12,7 +12,7 @@
   <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
     
     <!-- Bảng thứ nhất -->
-      <div>Common Task ({{totalCommon}})</div>
+      <div class="mt12">Common Task ({{totalCommon}})</div>
          <p style="font-size: 16px;">These tasks are automatically added to all new projects</p>
             <table mat-table  #table1 [dataSource]="dataSourceCommon"  class="my-table mat-elevation-z8">
                 <ng-container matColumnDef="name">
@@ -41,7 +41,7 @@
             </table>
 
     <!-- Bảng thứ hai -->
-        <div>Other Task({{totalOther}})</div>
+        <div class="mt12">Other Task({{totalOther}})</div>
         <p style="font-size: 16px;">These task must be manually added to projects</p>
         <table mat-table #table2 [dataSource]="dataSourceOther"  class="my-table mat-elevation-z8">
             <ng-container matColumnDef="name">

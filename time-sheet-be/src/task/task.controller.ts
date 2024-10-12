@@ -21,10 +21,9 @@ export class TaskController {
 
   @Post('')
   create(
-    @Body() createTaskDto: CreateTaskDto,
-    @Param('userId') userId: number 
+    @Body() createTaskDto: CreateTaskDto
     ) {
-    return this.taskService.create(createTaskDto, userId);
+    return this.taskService.create(createTaskDto, );
   }
 
   @Get()

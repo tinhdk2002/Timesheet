@@ -71,12 +71,17 @@
   border-bottom: 1px solid black
 }
 
+.textTimeSheet {
+  font-size: 14px;
+}
+
 .table>tbody>tr>td {
   padding:8px;
 }
 
 .table tbody tr td {
   vertical-align: middle;
+  height: 100px;
 }
 
 

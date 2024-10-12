@@ -9,6 +9,8 @@ import { ProjectModule } from './project/project.module';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { TimeSheetModule } from './time-sheet/time-sheet.module';
+import { BranchModule } from './admin/branch/branch.module';
+import { PositionModule } from './admin/position/position.module';
 
 @Module({
   imports: [
@@ -33,7 +35,9 @@ import { TimeSheetModule } from './time-sheet/time-sheet.module';
     AuthModule,
     ProjectModule,
     ClientModule,
-    TimeSheetModule
+    TimeSheetModule,
+    BranchModule,
+    PositionModule
   ], 
   controllers: [],
   providers: [

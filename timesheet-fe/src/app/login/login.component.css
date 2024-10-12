@@ -41,7 +41,7 @@
   
   input[type="text"],
   input[type="password"] {
-    width: 100%; /* Độ rộng tối đa của input */
+    width: 90%; /* Độ rộng tối đa của input */
     padding: 10px; /* Khoảng cách padding của input */
     font-size: 16px; /* Kích thước chữ của input */
     border: 1px solid #ccc; /* Viền input */
@@ -49,10 +49,10 @@
   }
   
   button {
-    padding: 10px 20px; /* Khoảng cách padding của button */
-    font-size: 16px; /* Kích thước chữ của button */
-    border-radius: 5px; /* Bo góc của button */
-    
+    padding: 10px 20px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    width: 70%;
   }
   button:hover {
         cursor: pointer;
@@ -66,5 +66,3 @@
   .alert-danger {
     color: red;
   }
-
-  

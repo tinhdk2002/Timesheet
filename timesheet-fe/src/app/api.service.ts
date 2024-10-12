@@ -37,383 +37,196 @@ export class ApiService {
     }
     );
   }
-  // Gửi yêu cầu POST để tạo user mới
-  postUser(user: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.post(`${this.apiUrl}/user`, user, httpOptions);
-  }
-
-  // Gửi yêu cầu GET để lấy tất cả users
-  getAllUsers(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-     
-  return this.http.get(`${this.apiUrl}/user`, httpOptions);
-  }
-
-  getUserById(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': '*/*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+ this.gettoken()
-      })
-    };
-
-    return this.http.get(`${this.apiUrl}/user/${this.getUserId()}`, httpOptions)
-  }
-  
- // Phương thức PUT để cập nhật thông tin của một người dùng
-  updateUser(userId: number, user: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.put<any>(`${this.apiUrl}/user/${userId}`, user, httpOptions);
-  }
-
-  // Phương thức DELETE để xóa một người dùng
-  deleteUser(userId: number): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.delete<any>(`${this.apiUrl}/user/${userId}`, httpOptions);
-  }
-
-  gettoken()
-  {
-  return localStorage.getItem('token');
-  }
-  getpayload()
-  {
-    let token:any = this.gettoken();
-    return JSON.parse(window.atob(token.split('.')[1])); 
-  }
-  getUserId(){
-    return localStorage.getItem('currentemployeeid')
-  }
-
-  getAllClients(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-     
-  return this.http.get(`${this.apiUrl}/client`, httpOptions);
-  }
-
-  postClient(client: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type':'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.post(`${this.apiUrl}/client`, client, httpOptions);
-  }
-
-  updateClient(clientId: number, client: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.patch<any>(`${this.apiUrl}/client/${clientId}`, client, httpOptions);
-  }
-
-  // Phương thức DELETE để xóa một người dùng
-  deleteClient(clientId: number): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.delete<any>(`${this.apiUrl}/client/${clientId}`, httpOptions);
-  }
-
-  getAllTasks(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-     
-  return this.http.get(`${this.apiUrl}/task`, httpOptions);
-  }
-
-  getAllTasksCommon(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-     
-  return this.http.get(`${this.apiUrl}/task/common`, httpOptions);
-  }
-
-  getAllTasksOther(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-     
-  return this.http.get(`${this.apiUrl}/task/other`, httpOptions);
-  
-  }
-
-  postTask(task: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type':'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.post(`${this.apiUrl}/task`, task, httpOptions);
-  }
-  updateTask(taskId: number, task: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.patch<any>(`${this.apiUrl}/task/${taskId}`, task, httpOptions);
-  }
-
-  // Phương thức DELETE để xóa một người dùng
-  deleteTask(taskId: number): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.delete<any>(`${this.apiUrl}/task/${taskId}`, httpOptions);
-  }
-
-  getAllProjects(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-     
-  return this.http.get(`${this.apiUrl}/project`, httpOptions);
-  }
-
-  getProjectId(projectId: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-     
-  return this.http.get(`${this.apiUrl}/project/${projectId}`, httpOptions);
-  }
-
-  getProjectByManager(userId: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-     
-  return this.http.get(`${this.apiUrl}/project/projectByManager/${userId}`, httpOptions);
-  }
-
-  postProject(project: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type':'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.post(`${this.apiUrl}/project`, project, httpOptions);
-  }
-
-  updateProject(projectId: number, project: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.patch<any>(`${this.apiUrl}/project/${projectId}`, project, httpOptions);
-  }
-
-  // Phương thức DELETE để xóa một người dùng
-  deleteProject(projectId: number): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.delete<any>(`${this.apiUrl}/project/${projectId}`, httpOptions);
-  }
-
-  getAllTimesheets(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-     
-  return this.http.get(`${this.apiUrl}/time-sheet`, httpOptions);
-  }
-  getTimesheetByUser(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-     
-  return this.http.get(`${this.apiUrl}/time-sheet/user/${this.getUserId()}`, httpOptions);
-  }
-
-  getAllTimesheetPending(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    }
-    return this.http.get(`${this.apiUrl}/time-sheet/pending`, httpOptions);
-  }
-
-  getTimesheetPendingByRole(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept':  '*/*',
-         'Content-Type':'application/json',
-         'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    }
-    return this.http.get(`${this.apiUrl}/time-sheet/manager/${this.getUserId()}`, httpOptions);
-  }
-  
-
-  postTimesheet(timesheet: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type':'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.post(`${this.apiUrl}/time-sheet`, timesheet, httpOptions);
-  }
-
-  updateTimesheet(tiemsheetId: number, timesheet: any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.patch<any>(`${this.apiUrl}/time-sheet/${tiemsheetId}`, timesheet, httpOptions);
-  }
-
-  
-  deleteTimesheet(tiemsheetId: number): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.delete<any>(`${this.apiUrl}/time-sheet/${tiemsheetId}`, httpOptions);
-  }
-
-  submitTimesheetWeek(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken(),
-      })
-    };
-    return this.http.put<any>(`${this.apiUrl}/time-sheet/submit`,{}, httpOptions);
-  }
-
-  approvalTimesheet(timesheets:any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.put(`${this.apiUrl}/time-sheet/approval`,timesheets, httpOptions);
-  }
-
-  rejectTimesheetLastWeek(timesheets:any): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer'+' '+ this.gettoken()
-      })
-    };
-    return this.http.put(`${this.apiUrl}/time-sheet/reject`,timesheets, httpOptions);
-  }
 
   logout()
   {
     localStorage.removeItem('token');
     localStorage.removeItem('currentemployeeemail');
     localStorage.removeItem('currentemployeeid')
+  }
+
+  gettoken() {
+    return localStorage.getItem('token');
+    }
+
+  httpOptions() {
+    return {
+      headers: new HttpHeaders({
+        'Accept': 'application/json, text/plain, */*',
+         'Content-Type':'application/json',
+         'Authorization': 'Bearer'+' '+ this.gettoken()
+      })
+    };
+  }
+
+  getpayload() {
+    let token:any = this.gettoken();
+    return JSON.parse(window.atob(token.split('.')[1])); 
+  }
+
+  getUserId(){
+    return localStorage.getItem('currentemployeeid')
+  }
+
+  postUser(user: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/user`, user, this.httpOptions());
+  }
+
+  getAllUsers(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user`, this.httpOptions());
+  }
+
+  getUserById(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/${this.getUserId()}`, this.httpOptions())
+  }
+  
+  updateUser(userId: number, user: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/user/${userId}`, user, this.httpOptions());
+  }
+
+  deleteUser(userId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/user/${userId}`, this.httpOptions());
+  }
+
+  getAllClients(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/client`, this.httpOptions());
+  }
+
+  postClient(client: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/client`, client, this.httpOptions());
+  }
+
+  updateClient(clientId: number, client: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/client/${clientId}`, client, this.httpOptions());
+  }
+
+  deleteClient(clientId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/client/${clientId}`, this.httpOptions());
+  }
+
+  getAllTasks(): Observable<any> {  
+    return this.http.get(`${this.apiUrl}/task`, this.httpOptions());
+  }
+
+  getAllTasksCommon(): Observable<any> { 
+    return this.http.get(`${this.apiUrl}/task/common`, this.httpOptions());
+  }
+
+  getAllTasksOther(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/task/other`, this.httpOptions());
+  }
+
+  postTask(task: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/task`, task, this.httpOptions());
+  }
+  updateTask(taskId: number, task: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/task/${taskId}`, task, this.httpOptions());
+  }
+
+  deleteTask(taskId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/task/${taskId}`, this.httpOptions());
+  }
+
+  getAllProjects(): Observable<any> { 
+    return this.http.get(`${this.apiUrl}/project`, this.httpOptions());
+  }
+
+  getProjectId(projectId: any): Observable<any> { 
+    return this.http.get(`${this.apiUrl}/project/${projectId}`, this.httpOptions());
+  }
+
+  getProjectByManager(userId: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/project/projectByManager/${userId}`, this.httpOptions());
+  }
+
+  postProject(project: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/project`, project, this.httpOptions());
+  }
+
+  updateProject(projectId: number, project: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/project/${projectId}`, project, this.httpOptions());
+  }
+
+  deleteProject(projectId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/project/${projectId}`, this.httpOptions());
+  }
+
+  getAllTimesheets(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/time-sheet`, this.httpOptions());
+  }
+  getTimesheetByUser(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/time-sheet/user/${this.getUserId()}`, this.httpOptions());
+  }
+
+  getAllTimesheetPending(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/time-sheet/pending`, this.httpOptions());
+  }
+
+  getTimesheetPendingByRole(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/time-sheet/manager/${this.getUserId()}`, this.httpOptions());
+  }
+  
+  postTimesheet(timesheet: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/time-sheet`, timesheet, this.httpOptions());
+  }
+
+  updateTimesheet(tiemsheetId: number, timesheet: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/time-sheet/${tiemsheetId}`, timesheet, this.httpOptions());
+  }
+
+  deleteTimesheet(tiemsheetId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/time-sheet/${tiemsheetId}`, this.httpOptions());
+  }
+
+  submitTimesheetWeek(): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/time-sheet/submit`,{}, this.httpOptions());
+  }
+
+  approvalTimesheet(timesheets:any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/time-sheet/approval`,timesheets, this.httpOptions());
+  }
+
+  rejectTimesheetLastWeek(timesheets:any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/time-sheet/reject`,timesheets, this.httpOptions());
+  }
+
+  postBranch(branch: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/branch`, branch, this.httpOptions());
+  }
+
+  getAllBranchs(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/branch`, this.httpOptions());
+  }
+
+  getBranchById(branchID: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/branch/${branchID}`, this.httpOptions())
+  }
+  
+  updateBranch(branchID: number, branch: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/branch/${branchID}`, branch, this.httpOptions());
+  }
+
+  deleteBranch(branchID: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/branch/${branchID}`, this.httpOptions());
+  }
+
+  postPosition(position: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/position`, position, this.httpOptions());
+  }
+
+  getAllPositions(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/position`, this.httpOptions());
+  }
+
+  getPositionById(positionId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/position/${positionId}`, this.httpOptions())
+  }
+  
+  updatePosition(positionId: number, position: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/position/${positionId}`, position, this.httpOptions());
+  }
+
+  deletePosition(positionId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/position/${positionId}`, this.httpOptions());
   }
 }

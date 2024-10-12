@@ -39,6 +39,12 @@ import { DiaglogTimesheetComponent } from './timesheet/diaglog-timesheet/diaglog
 import { MatSelectModule } from '@angular/material/select';
 import { ManageTimesheetComponent } from './manage-timesheet/manage-timesheet.component';
 import { DialogManageTimesheetComponent } from './manage-timesheet/dialog-manage-timesheet/dialog-manage-timesheet.component';
+import { InforUserComponent } from './inforUser/inforUser.component';
+import { DialogInforBoxComponent } from './inforUser/dialog-box/dialog-box.component';
+import { BranchsComponent } from './admin/branch/branchs.component';
+import { DialogBoxBranchComponent } from './admin/branch/dialog-box/dialog-box-branch.component';
+import { PositionComponent } from './admin/position/postion.component';
+import { DialogBoxPositionComponent } from './admin/position/dialog-box/dialog-box-position.component';
 
 
 @NgModule({
@@ -58,6 +64,12 @@ import { DialogManageTimesheetComponent } from './manage-timesheet/dialog-manage
     DiaglogTimesheetComponent,
     ManageTimesheetComponent,
     DialogManageTimesheetComponent,
+    InforUserComponent,
+    DialogInforBoxComponent,
+    BranchsComponent,
+    DialogBoxBranchComponent,
+    PositionComponent,
+    DialogBoxPositionComponent
   ],
   imports: [
     BrowserModule,

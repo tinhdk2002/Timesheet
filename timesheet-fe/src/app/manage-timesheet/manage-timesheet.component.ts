@@ -127,7 +127,6 @@ export class ManageTimesheetComponent {
           userSet.add(item.user.id);
           project.user = userArray;
         }
-
       }
       userSet.clear()
     }
@@ -168,12 +167,9 @@ export class ManageTimesheetComponent {
     timesheet.showData = !timesheet.showData 
   }
 
-  //checkbox
-
   updateAllComplete(user: any, project:any) {
     user.completed = user.timesheet != null && user.timesheet.every((t:any) => t.completed);
     this.updateAllCompleteUser(project);
-
   }
 
   someCompleteUser(user:any): boolean {
@@ -215,9 +211,6 @@ export class ManageTimesheetComponent {
       } )
   }
 
-
-
-
   changeSelectProject(){
     if(this.selectProject == 'all')
       this.dataSource = this.dataProject
@@ -226,7 +219,6 @@ export class ManageTimesheetComponent {
     }
   }
 
-  
   dateFomatYYYYMMDD(date: any): any {
     var today = new Date(date);
     var day: any = today.getDate();
@@ -239,9 +231,7 @@ export class ManageTimesheetComponent {
     return year+'-'+month+'-'+day; 
   }
 
-
   openDialog(action: any, obj: any) {
-
     const timesheet = obj.filter((timesheet: any) => timesheet.completed)
     obj = {}
     obj.timesheets = timesheet
@@ -250,7 +240,6 @@ export class ManageTimesheetComponent {
       width: '400px',
       data:obj
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if(result.event == 'Approval'){
         this.approvalData(result.data);
@@ -263,34 +252,28 @@ export class ManageTimesheetComponent {
 
   approvalData(data: any) {
     this.apiService.approvalTimesheet(data).subscribe(response => {
-      console.log(response)
       for(let timesheet of data.timesheets){
         this.data = this.data.filter((value: any,key:any)=>{
           return value.id != timesheet.id;
-          
         });
       }
       this.dataSource = [];
       this.dataProject = [];
       this.updateDataSource()
       this.dataSource = this.dataProject
-
     },
     (err) => {
       console.error(err.error)
     }
     )
-
   }
 
   rejectData(data: any) {
     this.apiService.rejectTimesheetLastWeek(data).subscribe(response => 
       {
-        console.log(response)
         for(let timesheet of data.timesheets){
           this.data = this.data.filter((value: any,key:any)=>{
             return value.id != timesheet.id;
-            
           });
         }
         this.dataSource = [];
@@ -299,7 +282,6 @@ export class ManageTimesheetComponent {
         this.dataSource = this.dataProject
       }
       )
-
   }
 }
 

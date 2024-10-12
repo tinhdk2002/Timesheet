@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, Inject, OnInit, Optional, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, Optional, ViewChild } from '@angular/core';
 import { ApiService } from '../../api.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogBoxClientComponent } from '../../admin/clients/dialog-box-client/dialog-box-client.component';
-import { take } from 'rxjs';
 import { MatTable } from '@angular/material/table';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -131,11 +130,10 @@ export class DialogBoxProjectComponent implements OnInit{
   }
   
   removeTask(task: any){
-    const index = this.selectedTasks.indexOf(task);
-    if (index !== -1) {
-      this.selectedTasks.splice(index, 1);
-    }
     this.tasks.push(task)
+    this.selectedTasks = this.selectedTasks.filter(t => t.id != task.id);
+    this.table1.renderRows()
+    this.table2.renderRows()
 
   }
 

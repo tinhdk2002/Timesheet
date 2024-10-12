@@ -9,22 +9,20 @@ import * as CircularJSON from 'circular-json';
   styleUrl: './dialog-manage-timesheet.component.css'
 })
 export class DialogManageTimesheetComponent {
-
-
-  
-  action:string;
+  note: string;
+  action: string;
   local_data:any;
 
   constructor(
     public dialogRef: MatDialogRef<DialogBoxComponent>,
-    //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
     this.local_data= {...data};
     this.action = this.local_data.action;
+    this.note = this.local_data.timesheets[0].note;
   }
 
   doAction(){
-    
+
     for(let timesheets of this.local_data.timesheets){
       const {timesheet,...rest} = timesheets.user
       timesheets.user = rest;
@@ -36,7 +34,7 @@ export class DialogManageTimesheetComponent {
   }
 
   closeDialog(){
-    
+
     this.dialogRef.close({event:'Cancel'});
   }
 }

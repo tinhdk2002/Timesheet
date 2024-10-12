@@ -212,7 +212,6 @@ export class TimesheetComponent implements OnInit {
 
   addRowData(row_obj: any){
     this.apiService.postTimesheet(row_obj).subscribe((response:any) => {
-        console.log(response)
         this.dataSource.push({
           note: row_obj.note,
           time: row_obj.time,
@@ -233,7 +232,7 @@ export class TimesheetComponent implements OnInit {
   updateRowData(row_obj: any){
     this.apiService.updateTimesheet(Number(row_obj.id), row_obj).subscribe( 
       response => {
-        console.log(response)
+
         this.dataSource = this.dataSource.filter((value,key)=>{
           if(value.id == row_obj.id){
             value.note = row_obj.note;
@@ -257,7 +256,7 @@ export class TimesheetComponent implements OnInit {
   deleteRowData(row_obj: any){
     this.apiService.deleteTimesheet(row_obj.id).subscribe(
       response => {
-        console.log(response)
+
         this.dataSource = this.dataSource.filter((value,key)=>{
           return value.id != row_obj.id;
         });
@@ -272,7 +271,6 @@ export class TimesheetComponent implements OnInit {
 
   submitTimesheet() {
     this.apiService.submitTimesheetWeek().subscribe(response => {
-      console.log(response)
       this.getDataSource()
     },
     (err) => {

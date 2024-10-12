@@ -26,8 +26,8 @@
                       <table class="table" *ngIf="dateFomatMMDYYYY(data.date) === currentTime">
                         <tbody >
                         <tr >
-                            <td style="width: 70%;">
-                              <div>{{data.projects.name + ' ' + data.projects.code + ' - ' + data.tasks.name}}</div>
+                            <td class="textTimeSheet" style="width: 70%;">
+                              <div > <span style="font-weight: bold;">[{{data.projects.name}}]</span> {{' ' + data.projects.code + ' - ' }}  <span style="color:darkcyan;font-weight: bold;">{{data.tasks.name}}</span></div>
                               <div>{{data.note}}</div>
                             </td>
                             <td style="width: 25px;">

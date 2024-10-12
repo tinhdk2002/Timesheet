@@ -14,6 +14,12 @@
         <div class="nav">
             <ul>
                 <li>
+                  <a routerLink="inforUser" class="textChange">
+                    <i class="material-icons ng-star-inserted">account_circle</i>
+                    <span class="text">My Information</span>
+                  </a>
+                </li>
+                <li>
                   <a routerLink="timesheet" class="textChange">
                     <i class="material-icons ng-star-inserted">alarm</i> 
                     <span class="text"> My Timesheet</span>
@@ -36,6 +42,14 @@
                           <li><a routerLink="admin/tasks">
                             <i class="material-icons ng-star-inserted">import_contacts</i>
                             <span class="text">Tasks</span>
+                          </a></li>
+                          <li><a routerLink="admin/positions">
+                            <i class="material-icons ng-star-inserted">radar</i>
+                            <span class="text">Positions</span>
+                          </a></li>
+                          <li><a routerLink="admin/branchs">
+                            <i class="material-icons ng-star-inserted">home</i>
+                            <span class="text">Branchs</span>
                           </a></li>
                       </ul>
                   </li>
@@ -60,9 +74,7 @@
 
 <script> 
   const dropdownToggles = document.querySelectorAll(".dropdown");
-    console.log(dropdownToggles)
   dropdownToggles.forEach(function(toggle) {
-    console.log(toggle)
     toggle.addEventListener("click", function() {
       const dropdownContent = toggle.querySelector(".dropdown-content");
       dropdownContent.classList.toggle("active");

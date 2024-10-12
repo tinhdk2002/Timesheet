@@ -128,7 +128,6 @@ export class ProjectComponent implements OnInit {
   addRowData(row_obj: any){
     this.apiService.postProject(row_obj)
       .subscribe(response => {
-        console.log(response)
         this.dataSource.push({
           id: response.id,
           startAt: row_obj.startAt,
@@ -140,6 +139,10 @@ export class ProjectComponent implements OnInit {
           code: row_obj.code,
         });
         this.manageUser(this.dataSource)
+        this.dataSource.sort((a,b) => {
+          return a.client.id - b.client.id;
+        });
+        this.table.renderRows();
       },
       (err) => {
         console.error(err.error)
@@ -150,7 +153,6 @@ export class ProjectComponent implements OnInit {
   updateRowData(row_obj: any){
     this.apiService.updateProject(Number(row_obj.id), row_obj).subscribe( 
       response => {
-        console.log(response)
         this.dataSource = this.dataSource.filter((value,key)=>{
         if(value.id == row_obj.id){
           value.name = row_obj.name;
@@ -161,9 +163,10 @@ export class ProjectComponent implements OnInit {
             value.users = row_obj.users;
             value.tasks = row_obj.tasks;
           }
-          this.manageUser(this.dataSource);
           return true;
         });
+        this.manageUser(this.dataSource);
+        this.table.renderRows();
       },
       (err) => {
         console.error(err.error)
@@ -173,17 +176,13 @@ export class ProjectComponent implements OnInit {
   deleteRowData(row_obj: any){
     this.apiService.deleteProject(row_obj.id).subscribe(
       response => {
-        console.log(response)
-        this.dataSource = this.dataSource.filter((value,key)=>{
-          return value.id != row_obj.id;
-        });
+        this.projects = this.projects.filter(project => project.id != row_obj.id); 
+        this.dataSource = this.projects;
+        this.table.renderRows();
       },
       (err) => {
         console.error(err.error)
       }
     )
   }
-
- 
-  
 }

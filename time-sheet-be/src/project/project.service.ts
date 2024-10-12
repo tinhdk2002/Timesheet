@@ -42,11 +42,8 @@ export class ProjectService {
     project.users = users
     const tasks = [];
     for(const taskData of createProjectDto.tasks) {
-     const task =  (await this.taskService.findOne(taskData.id))
-     if (task)
-      {
-        tasks.push(task)
-      }
+      const task =  (await this.taskService.findOne(taskData.id));
+      tasks.push(task);
     }
     project.tasks = tasks
     
@@ -66,7 +63,7 @@ export class ProjectService {
   
       const isManger =  user.role.includes(UserRole.PROJECT_MANAGER) 
       if(isManger)
-        return this.findProjectByUserId(userId)
+        return this.findProjectsByUserId(userId)
       else if(user.role.includes(UserRole.ADMIN)){
         return this.projectRepository.createQueryBuilder('project')
         .leftJoinAndSelect('project.client', 'client')
@@ -83,7 +80,7 @@ export class ProjectService {
     });
   }
 
- async findProjectByUserId(userId: number){
+ async findProjectsByUserId(userId: number){
     const user: User = await this.userService.findUserById(userId)
     let arrProject = []
     for(let project of user.projects){
@@ -93,12 +90,16 @@ export class ProjectService {
   }
 
   async findProject(user: any){
-    return await this.projectRepository.findOne({
+    let project = await this.projectRepository.findOne({
       relations: ["tasks","users","client","timesheets"],
       where: {
         id: user.id
       }
     })
+    if (!project) {
+      throw new NotFoundException(`User ${user} dont have any project`);
+    }
+    return project
   }
 
   async findOne(id: number) {
@@ -155,7 +156,6 @@ export class ProjectService {
     const project = await this.findOne(id);
     if(!project)
       throw new NotFoundException("Not found Project!")
-    this.projectRepository.delete(id)
-    return 'Delete Success-';
+    return await this.projectRepository.delete(id)
   }
 }

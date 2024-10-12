@@ -78,3 +78,8 @@ th {
   .title {
     margin-top: 20px;
   }
+
+ .mt12 {
+  margin-top: 12px;
+  font-weight: 700;
+ }

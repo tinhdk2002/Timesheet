@@ -40,9 +40,9 @@
   </table>
   <div class="pagination">
     <!-- Nút chuyển trang -->
-    <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
-    <span>{{ currentPage }}/{{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    <button (click)="prevPage()" >Prev</button>
+    <span>{{ currentPageClient }}/{{ totalPagesClient }}</span>
+    <button (click)="nextPage()" [disabled]="currentPageClient === totalPagesClient">Next</button>
 </div>
 </div>
   

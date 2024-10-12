@@ -22,6 +22,16 @@
           <option *ngFor="let sex of sexs" [value]="sex">{{sex}}</option>
       </select>
 
+    <select name="position" id="position" formControlName="position" [(ngModel)]="local_data.position" style="color: gray;padding-left: 10px;">
+      <option value="" hidden>Position</option>
+      <option *ngFor="let position of positions" [value]="position">{{position.name}}</option>
+    </select>
+
+    <select name="branch" id="branch" formControlName="branch" [(ngModel)]="local_data.branch" style="color: gray;padding-left: 10px;">
+      <option value="" hidden>Branch</option>
+      <option *ngFor="let branch of branchs" [value]="branch">{{branch.name}}</option>
+    </select>
+
     <select name="role" id="role" formControlName="role" [(ngModel)]="local_data.role" style="color: gray;padding-left: 10px;">
         <option value="" hidden>Role</option>
         <option *ngFor="let role of roles" [value]="role">{{role}}</option>

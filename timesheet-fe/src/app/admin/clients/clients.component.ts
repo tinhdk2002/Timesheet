@@ -38,20 +38,19 @@ export class ClientsComponent implements OnInit {
   }
 
   async fetchClients() {
-    // Gọi API hoặc service để lấy danh sách user từ backend
-    // Đây là ví dụ giả lập dữ liệu
     await this.apiService.getAllClients().subscribe((clients: any) => {
       this.clients = clients;
       this.dataSource = this.clients
     this.totalPages = Math.ceil(this.dataSource.length / this.pageSize);
 
-      // Xử lý dữ liệu clients ở đây nếu cần
     });
 
-    // Tính toán số trang dựa trên tổng số user và số user trên mỗi trang
   }
-  get totalPagesClients():number {
+  get totalPagesClient():number {
     return Math.ceil(this.dataSource.length / this.pageSize)
+  }
+  get currentPageClient():number {
+    return this.currentPage > this.totalPagesClient ? this.totalPagesClient : this.currentPage
   }
 
   get displayedData(): any[] {
@@ -64,7 +63,7 @@ export class ClientsComponent implements OnInit {
   prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-    }
+    } else (this.currentPage = 1)
     this.table.renderRows();
   }
 
@@ -96,7 +95,6 @@ export class ClientsComponent implements OnInit {
   addRowData(row_obj: any){
     this.apiService.postClient(row_obj)
       .subscribe(response => {
-        console.log(response)
         this.dataSource.push({
           id: response.id,
           name: row_obj.name,
@@ -117,7 +115,6 @@ export class ClientsComponent implements OnInit {
   updateRowData(row_obj: any){
     this.apiService.updateClient(Number(row_obj.id), row_obj).subscribe( 
       response => {
-        console.log(response);
         this.dataSource = this.dataSource.filter((value,key)=>{
           if(value.id == row_obj.id){
             value.name = row_obj.name;
@@ -132,13 +129,10 @@ export class ClientsComponent implements OnInit {
       }
     )
     this.table.renderRows()
-
-    
   }
   deleteRowData(row_obj: any){
     this.apiService.deleteClient(row_obj.id).subscribe(
       response => {
-        console.log(response)
         this.dataSource = this.dataSource.filter((value,key)=>{
           return value.id != row_obj.id;
         });

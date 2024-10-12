@@ -2,28 +2,37 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { And, Like, Or, Repository, UpdateDateColumn } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { NotFoundError } from 'rxjs';
-import e from 'express';
-import { UserRole } from 'src/utils/user-role.enum';
-import { Project } from 'src/project/entities/project.entity';
-import { ProjectService } from 'src/project/project.service';
+import { PositionService } from 'src/admin/position/position.service';
+import { BranchService } from 'src/admin/branch/branch.service';
 
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>
+        private userRepository: Repository<User>,
+        private positionService: PositionService,
+        private branchService: BranchService,
       ) {}
-    create(createUserDto: CreateUserDto) {
+    async create(createUserDto: CreateUserDto) {
         let user: User = new User();
         user.email = createUserDto.email; 
         user.firstName = createUserDto.firstName;
         user.lastName = createUserDto.lastName;
         user.password = createUserDto.password;
         user.sex = createUserDto.sex;
+        let branch = await this.branchService.findOne(createUserDto.branch.id);
+        if (!branch) {
+            throw new BadRequestException(`Branch not found`);
+        }
+        let position = await this.positionService.findOne(createUserDto.position.id);
+        if (!position) {
+            throw new BadRequestException('Position not found');
+        } 
+        user.branch = branch
+        user.position = position
         if(createUserDto.role)
             user.role = createUserDto.role
         return this.userRepository.save(user)
@@ -58,42 +67,61 @@ export class UserService {
         return user
     }
 
-    findUserById(userId: number){
-        return this.userRepository.findOneOrFail({ 
-            relations: ['projects']
+    async findUserById(userId: number){
+        let user = await this.userRepository.findOne({ 
+            relations: ['projects', 'position', 'branch']
             ,where: {id: userId}})
+        if (!user) {
+            throw new NotFoundException(`Not found user id ${userId}`);
+        } 
+        return user
     }
 
-    findUserByName(name: string){
-        return this.userRepository.findOneOrFail({ where:  {
+    async findUserByName(name: string){
+        let user = await this.userRepository.findOne({ where: {
             firstName: Like(`%${name}%`),
             lastName: Like(`%${name}%`)
-        }  })
+        }})
+        if (!user) {
+            throw new NotFoundException(`Not found user name ${name}`);
+        }
+        return user
     }
 
-    findEmail(email: string){
-        return this.userRepository.findOne(
+    async findEmail(email: string){
+        let user = await this.userRepository.findOne(
             {
-                relations: ['projects']
+                relations: ['projects', 'position', 'branch']
                 ,where: {email: email}
         })
+        if (!user) {
+            throw new NotFoundException(`Not found user email ${email}`);
+        }
+        return user
     }
      
     async findAll() {
         const users = await this.userRepository.find({
-            relations:['projects']
+            relations:['projects', 'position', 'branch']
         })
         return users
     }
 
-    delete(userId: number){
+    async delete(userId: number){
+        const user: User = await this.findUserById(userId)
+        if(!user)
+            throw new NotFoundException('Not found user')
         return this.userRepository.delete(userId)
     }
 
-    findTimesheetByUser(userId: number){
-        return this.userRepository.findOne({
+    async findTimesheetByUser(userId: number){
+        let user = await this.userRepository.findOne({
             relations:['timesheet'],
             where: {id: userId}
         })
+        if (!user) {
+            throw new NotFoundException('Not found user!')
+        }
+        return user
     }
 }
