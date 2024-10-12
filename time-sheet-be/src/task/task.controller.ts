@@ -6,11 +6,6 @@ import { RoleGuard } from 'src/auth/guard/role.guard';
 import { UserRole } from 'src/utils/user-role.enum';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 
-//- Create UI list task project
-//- Create Api search, filter task
-//- Create Api delete, achive task
-//- Api for archive task 
-
 @Controller('task')
 @ApiTags('Task')
 @ApiSecurity('JWT-auth')

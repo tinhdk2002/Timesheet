@@ -30,3 +30,35 @@
   <button mat-button [disabled]="!formUser.valid" (click)="doAction()">{{action}}</button>
   <button mat-button  (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
 </div>
+<!-- dialog-box.component.html -->
+<h1 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h1>
+<div mat-dialog-content>
+  <div *ngIf="action != 'Delete';">
+    <form [formGroup]="formUser" (submit)="doAction()">
+
+    <mat-form-field>
+        <input placeholder="First Name" formControlName="firstName" matInput id="firstName" name="firstName" [(ngModel)]="local_data.firstName">
+    </mat-form-field>
+    <mat-form-field>
+        <input placeholder="Last Name" matInput formControlName="lastName" type="text" id="lastName" name="lastName" [(ngModel)]="local_data.lastName">
+    </mat-form-field>
+    <mat-form-field>
+        <input placeholder="Email" matInput formControlName="email" type="email" id="email" name="email" [(ngModel)]="local_data.email">
+    </mat-form-field>
+    <mat-form-field>
+        <input placeholder="Password" matInput formControlName="password" type="string" name="password" id="password" [(ngModel)]="local_data.password">        
+    </mat-form-field>
+
+      <select name="sex" id="sex" formControlName="sex" [(ngModel)]="local_data.sex" style="color: gray;padding-left: 10px;">
+          <option value="" hidden>Sex</option>
+          <option *ngFor="let sex of sexs" [value]="sex">{{sex}}</option>
+      </select>
+
+  </form>
+  </div>
+
+</div>
+<div mat-dialog-actions  *ngIf="action != 'Delete';">
+  <button mat-button [disabled]="!formUser.valid" (click)="doAction()">{{action}}</button>
+  <button mat-button  (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div>
